@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!--
+      Hardened Runtime entitlements for Mac Transformer.
+
+      We are NOT App-Store-sandboxed; this is for notarization + Gatekeeper
+      distribution. Only the entitlements that relax the Hardened Runtime
+      to match what we do at runtime.
+    -->
+
+    <!-- Required so `osascript` can drive Books.app, Music.app, Safari,
+         Microsoft Word / PowerPoint, and (for Finder tag reveals) Finder.
+         Info.plist has the matching NSAppleEventsUsageDescription. -->
+    <key>com.apple.security.automation.apple-events</key>
+    <true/>
+
+    <!-- We shell out to subprocesses that aren't code-signed by our team
+         (soffice, pandoc, ffmpeg, swift for OCR, xattr, curl, osascript).
+         Hardened Runtime otherwise blocks executing binaries that aren't
+         team-signed. -->
+    <key>com.apple.security.cs.disable-library-validation</key>
+    <true/>
+    <key>com.apple.security.cs.allow-unsigned-executable-memory</key>
+    <true/>
+
+    <!-- Some Go binaries and some of pdfcpu's PDF operations JIT-compile
+         template code paths. Enabling this avoids a runtime kill. -->
+    <key>com.apple.security.cs.allow-jit</key>
+    <true/>
+
+    <!-- Allow the WebView to load our REST/MCP server on localhost.
+         Info.plist already carries NSAllowsLocalNetworking. -->
+</dict>
+</plist>

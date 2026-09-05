@@ -14,19 +14,23 @@ Input formats: **docx, doc, rtf, pptx, ppt, odt, odp, ods, xlsx, pdf, md, adoc, 
 - **Watch folders** — drop a file into a configured directory, it processes automatically
 - **Safari share** — services menu entry accepts URLs from any app
 
-## Quickstart
+## Install
+
+**Homebrew (recommended):**
 
 ```sh
-# Clone
+brew install --cask geekychris/mac-transformer/mac-transformer
+```
+
+That's it. Homebrew fetches the signed + notarized DMG, drops the `.app` into `/Applications`, and registers it with Launch Services. Requires macOS 12+.
+
+**Build from source:**
+
+```sh
 git clone https://github.com/geekychris/mac_transformer.git
 cd mac_transformer
-
-# Install runtime dependencies (LibreOffice, pandoc, poppler, ffmpeg, ...).
-# Prompts before each; skip any you don't want.
-./scripts/install-deps.sh
-
-# Build the .app and install to /Applications
-./scripts/install.sh
+./scripts/install-deps.sh   # prompt before each brew install (LibreOffice, pandoc, ffmpeg, …)
+./scripts/install.sh        # builds .app and installs to /Applications
 ```
 
 Then `open /Applications/Mac\ Transformer.app` — the menu bar shows an `MT` icon.
@@ -56,6 +60,7 @@ More annotated views (Transform, Plugins, Settings, failed-job error handling) a
 - **[docs/CONFIG.md](docs/CONFIG.md)** — every config knob, its default, and what it does
 - **[docs/API.md](docs/API.md)** — REST endpoints, MCP tools, request/response shapes
 - **[docs/SCREENSHOTS.md](docs/SCREENSHOTS.md)** — annotated tour of every tab
+- **[docs/SHIPPING.md](docs/SHIPPING.md)** — signing, notarization, DMG creation, Homebrew tap flow
 
 ## Features at a glance
 
