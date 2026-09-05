@@ -40,6 +40,14 @@ mt transform ~/Documents/paper.docx --outputs pdf,text,audio --wait
 
 Or use the app: paste a path, click **Transform**.
 
+## Screenshots
+
+The Queue view with a completed 3-artifact chapter-split job (PDF + text + 3-chapter audio), published to Books + Reading List + Obsidian and tagged with `Consensus, Distributed`:
+
+![Queue](docs/images/queue-expanded.png)
+
+More annotated views (Transform, Plugins, Settings, failed-job error handling) are in **[docs/SCREENSHOTS.md](docs/SCREENSHOTS.md)**.
+
 ## Documentation
 
 - **[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)** — how the pieces fit together, the request lifecycle, and design decisions
@@ -47,6 +55,7 @@ Or use the app: paste a path, click **Transform**.
 - **[docs/PLUGINS.md](docs/PLUGINS.md)** — writing a plugin (converter or sink) without recompiling
 - **[docs/CONFIG.md](docs/CONFIG.md)** — every config knob, its default, and what it does
 - **[docs/API.md](docs/API.md)** — REST endpoints, MCP tools, request/response shapes
+- **[docs/SCREENSHOTS.md](docs/SCREENSHOTS.md)** — annotated tour of every tab
 
 ## Features at a glance
 
