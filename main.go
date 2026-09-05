@@ -37,6 +37,11 @@ func main() {
 }
 
 func run() error {
+	// Seed PATH so plugin probes find Homebrew-installed tools even when
+	// macOS launched us with the minimal Finder/LaunchServices PATH.
+	// Must happen BEFORE plugin.Load so probes see the right binaries.
+	seedPATH()
+
 	// Bundled plugins ship inside the binary but tools like osascript need
 	// them on disk. Unpack to Application Support on every launch so the
 	// embedded copy is authoritative.
