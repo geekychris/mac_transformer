@@ -19,10 +19,12 @@ Input formats: **docx, doc, rtf, pptx, ppt, odt, odp, ods, xlsx, pdf, md, adoc, 
 **Homebrew (recommended):**
 
 ```sh
-brew install --cask geekychris/mac-transformer/mac-transformer
+brew tap geekychris/mac-transformer && brew install --cask mac-transformer
 ```
 
-That's it. Homebrew fetches the signed + notarized DMG, drops the `.app` into `/Applications`, and registers it with Launch Services. Requires macOS 12+.
+Homebrew fetches the signed + notarized DMG, drops the `.app` into `/Applications`, and registers it with Launch Services. Requires macOS 12+.
+
+To update later: `brew upgrade --cask mac-transformer`.
 
 **Build from source:**
 
