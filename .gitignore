@@ -22,3 +22,10 @@ build/ios/xcode/overlay.json
 build/ios/xcode/gen/
 build/android/overlay.json
 build/android/gen/
+# Distribution artifacts — go to GitHub Releases, not the repo
+dist/
+
+# Anything explicitly marked "don't check in" — belt and suspenders
+dont_checkin*
+*.local
+*.secret
