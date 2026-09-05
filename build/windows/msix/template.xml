@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MsixPackagingToolTemplate
+    xmlns="http://schemas.microsoft.com/msix/packaging/msixpackagingtool/template/2022">
+    <Settings
+        AllowTelemetry="false"
+        ApplyACLsToPackageFiles="true"
+        GenerateCommandLineFile="true"
+        AllowPromptForPassword="false">
+    </Settings>
+    <Installer
+        Path="mac_transformer"
+        Arguments=""
+        InstallLocation="C:\Program Files\Chris\Mac Transformer">
+    </Installer>
+    <PackageInformation
+        PackageName="Mac Transformer"
+        PackageDisplayName="Mac Transformer"
+        PublisherName="CN=Chris"
+        PublisherDisplayName="Chris"
+        Version="0.1.0.0"
+        PackageDescription="Convert docs to PDF/text/audio via a pluggable pipeline">
+        <Capabilities>
+            <Capability Name="runFullTrust" />
+            
+        </Capabilities>
+        <Applications>
+            <Application
+                Id="com.chris.mac-transformer"
+                Description="Convert docs to PDF/text/audio via a pluggable pipeline"
+                DisplayName="Mac Transformer"
+                ExecutableName="mac_transformer"
+                EntryPoint="Windows.FullTrustApplication">
+                
+            </Application>
+        </Applications>
+        <Resources>
+            <Resource Language="en-us" />
+        </Resources>
+        <Dependencies>
+            <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.17763.0" MaxVersionTested="10.0.19041.0" />
+        </Dependencies>
+        <Properties>
+            <Framework>false</Framework>
+            <DisplayName>Mac Transformer</DisplayName>
+            <PublisherDisplayName>Chris</PublisherDisplayName>
+            <Description>Convert docs to PDF/text/audio via a pluggable pipeline</Description>
+            <Logo>Assets\AppIcon.png</Logo>
+        </Properties>
+    </PackageInformation>
+    <SaveLocation PackagePath="mac_transformer.msix" />
+    <PackageIntegrity>
+        <CertificatePath></CertificatePath>
+    </PackageIntegrity>
+</MsixPackagingToolTemplate>

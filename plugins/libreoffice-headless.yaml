@@ -1,0 +1,36 @@
+name: libreoffice-headless
+description: Convert Office/OpenDocument files via headless LibreOffice
+version: 1
+
+capabilities:
+  # Office / OpenDocument -> PDF
+  - from: [docx, doc, pptx, ppt, odt, odp, ods, rtf, xlsx, xls, key, pages, numbers]
+    to:   [pdf]
+    priority: 50
+  # Documents -> plain text
+  - from: [docx, doc, odt, rtf]
+    to:   [txt]
+    priority: 40
+  # Office -> Office round-trip (occasionally useful)
+  - from: [doc, odt]
+    to:   [docx]
+    priority: 40
+
+requires:
+  - kind: binary
+    name: soffice
+
+run:
+  kind: command
+  # `soffice --headless --convert-to pdf --outdir <dir> <input>` writes
+  # <dir>/<input-stem>.pdf. We tell the executor where to look with `produces`.
+  argv:
+    - soffice
+    - --headless
+    - --convert-to
+    - "{{output_ext}}"
+    - --outdir
+    - "{{output_dir}}"
+    - "{{input}}"
+  produces: "{{output_dir}}/{{input_stem}}.{{output_ext}}"
+  timeout_seconds: 240

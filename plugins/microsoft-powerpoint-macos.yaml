@@ -1,0 +1,21 @@
+name: microsoft-powerpoint-macos
+description: Convert PowerPoint presentations to PDF via Microsoft PowerPoint (AppleScript)
+version: 1
+
+capabilities:
+  - from: [pptx, ppt]
+    to:   [pdf]
+    priority: 100
+
+requires:
+  - kind: app-bundle
+    bundle_id: com.microsoft.Powerpoint
+
+run:
+  kind: command
+  argv:
+    - osascript
+    - "{{plugin_dir}}/powerpoint-convert.applescript"
+    - "{{input}}"
+    - "{{output}}"
+  timeout_seconds: 240

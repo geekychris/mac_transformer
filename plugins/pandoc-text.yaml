@@ -1,0 +1,26 @@
+name: pandoc-text
+description: Extract plain text from markup / office files via Pandoc
+version: 1
+
+capabilities:
+  - from: [md, markdown, adoc, asciidoc, rst, org, html, docx, epub]
+    to:   [txt]
+    priority: 50
+
+requires:
+  - kind: binary
+    name: pandoc
+
+run:
+  kind: command
+  # `pandoc -t plain -o out.txt in.foo` — plain writer gives clean prose that
+  # TTS actually sounds sensible reading (headings collapse to their text,
+  # lists become dashes, tables render as ASCII).
+  argv:
+    - pandoc
+    - -t
+    - plain
+    - -o
+    - "{{output}}"
+    - "{{input}}"
+  timeout_seconds: 120

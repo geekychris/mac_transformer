@@ -1,0 +1,19 @@
+name: md-adoc-passthrough
+description: Copy markup source when the user asks for it as-is (rarely used, but keeps the pipeline honest)
+version: 1
+
+capabilities:
+  - from: [md, markdown]
+    to:   [md]
+    priority: 100
+  - from: [adoc, asciidoc]
+    to:   [adoc]
+    priority: 100
+
+run:
+  kind: command
+  argv:
+    - cp
+    - "{{input}}"
+    - "{{output}}"
+  timeout_seconds: 30

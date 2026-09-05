@@ -1,0 +1,25 @@
+name: microsoft-word-macos
+description: Convert Word documents to PDF via Microsoft Word (AppleScript)
+version: 1
+
+# We used to also claim docx -> txt here, but Word AppleScript's text export
+# is broken on modern Word for Mac (see word-convert.applescript for details).
+# pandoc-text handles docx -> txt fine at priority 50; we stay out of its way.
+capabilities:
+  - from: [docx, doc, rtf]
+    to:   [pdf]
+    priority: 100
+
+requires:
+  - kind: app-bundle
+    bundle_id: com.microsoft.Word
+
+run:
+  kind: command
+  argv:
+    - osascript
+    - "{{plugin_dir}}/word-convert.applescript"
+    - "{{input}}"
+    - "{{output}}"
+    - "{{output_ext}}"
+  timeout_seconds: 180

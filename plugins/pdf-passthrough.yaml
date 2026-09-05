@@ -1,0 +1,18 @@
+name: pdf-passthrough
+description: Copy PDF -> PDF so a PDF input still produces the requested PDF output
+version: 1
+
+capabilities:
+  - from: [pdf]
+    to:   [pdf]
+    priority: 100
+
+# No requirements — this is a no-op copy.
+
+run:
+  kind: command
+  argv:
+    - cp
+    - "{{input}}"
+    - "{{output}}"
+  timeout_seconds: 30

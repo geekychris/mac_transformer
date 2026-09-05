@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Name=Mac Transformer
+Comment=Convert docs to PDF/text/audio via a pluggable pipeline
+# The Exec line includes %u to pass the URL to the application
+Exec=/usr/local/bin/mac_transformer %u
+Terminal=false
+Type=Application
+Icon=mac_transformer
+Categories=Utility;
+StartupWMClass=mac_transformer
+
+ 

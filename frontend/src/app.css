@@ -1,0 +1,305 @@
+/* Mac Transformer — utilitarian layout, monospaced accents, dark background
+   matches the Wails window's Backdrop=Translucent chrome. */
+
+:root {
+  --bg: #14161e;
+  --bg-alt: #1c1f2b;
+  --border: #2a2f42;
+  --text: #e6e7ec;
+  --muted: #8a90a4;
+  --accent: #5e9dff;
+  --accent-2: #7ce07c;
+  --err: #ff7373;
+  --ok: #6bd66b;
+  --warn: #ffce70;
+  font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html, body, #root, .app {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+}
+
+.hdr {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  /* Leave room for macOS traffic-light buttons on the left. TitleBar is
+     HiddenInset in this window, so the buttons overlay our header at
+     approximately x=8..70px. */
+  padding-left: 82px;
+  border-bottom: 1px solid var(--border);
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-app-region: drag;
+}
+
+.hdr-title { font-weight: 600; letter-spacing: 0.2px; }
+
+.hdr-tabs { -webkit-app-region: no-drag; }
+
+.tab {
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  padding: 0.35rem 0.7rem;
+  border-radius: 6px;
+  cursor: pointer;
+  text-transform: capitalize;
+  font-size: 0.95rem;
+}
+.tab:hover { color: var(--text); }
+.tab.active { background: var(--bg-alt); color: var(--text); }
+
+.hdr-status { color: var(--muted); font-size: 0.85rem; -webkit-app-region: no-drag; }
+
+.body { padding: 1.25rem; overflow: auto; flex: 1 1 auto; }
+
+/* --- rows --- */
+.row {
+  display: flex; align-items: center; gap: 0.75rem; margin: 0.5rem 0;
+}
+.lbl { width: 180px; color: var(--muted); font-size: 0.9rem; }
+.row input, .row select, textarea {
+  background: var(--bg-alt); border: 1px solid var(--border); color: var(--text);
+  padding: 0.4rem 0.6rem; border-radius: 6px; font-size: 0.95rem; flex: 1 1 auto;
+}
+textarea { resize: vertical; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+
+.actions { justify-content: flex-end; margin-top: 1rem; }
+
+.btn {
+  background: var(--bg-alt); border: 1px solid var(--border);
+  color: var(--text); padding: 0.4rem 0.9rem; border-radius: 6px;
+  cursor: pointer;
+}
+.btn:hover { border-color: var(--accent); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: #0b0d16; font-weight: 600; }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.chips { display: flex; gap: 0.4rem; }
+.chip {
+  background: var(--bg-alt); border: 1px solid var(--border);
+  color: var(--muted); border-radius: 999px; padding: 0.2rem 0.7rem; cursor: pointer;
+}
+.chip.active { color: var(--text); border-color: var(--accent); background: rgba(94,157,255,0.12); }
+
+.err { color: var(--err); margin: 0.5rem 0; }
+.status { color: var(--muted); }
+.muted { color: var(--muted); }
+
+.mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.85rem; }
+
+/* --- dropzone --- */
+.dropzone { max-width: 780px; }
+.drop {
+  border: 2px dashed var(--border);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 0.75rem;
+  background: rgba(94,157,255,0.03);
+}
+.drop-hint { color: var(--muted); margin-bottom: 0.5rem; }
+.path-input { width: 100%; min-height: 96px; }
+
+/* --- queue --- */
+.queue { display: flex; flex-direction: column; gap: 0.6rem; max-width: 900px; }
+.job { background: var(--bg-alt); border: 1px solid var(--border); border-radius: 8px; padding: 0.5rem 0.75rem; }
+.job-hdr { display: flex; gap: 0.75rem; align-items: center; }
+.job-hdr.clickable { cursor: pointer; user-select: none; padding: 0.15rem 0; }
+.job-hdr.clickable:hover { color: var(--text); }
+.disclosure { color: var(--muted); font-size: 0.7rem; width: 0.8rem; display: inline-block; }
+.job-id { color: var(--muted); font-size: 0.8rem; }
+.job-summary { flex: 1 1 auto; font-size: 0.9rem; }
+.job-body { margin: 0.55rem 0 0.2rem 1.6rem; }
+.job-path { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.9rem; word-break: break-all; }
+.job-outs { color: var(--muted); font-size: 0.85rem; margin-top: 0.25rem; }
+
+.subhead { font-size: 0.8rem; margin: 0.6rem 0 0.15rem; text-transform: uppercase; letter-spacing: 0.5px; }
+.artifacts { margin: 0.1rem 0 0 0; padding: 0 0 0 0.3rem; list-style: none; }
+.artifacts li { margin: 0.15rem 0; font-size: 0.9rem; }
+.artifact-link {
+  background: none; border: none; padding: 0;
+  color: var(--accent); text-decoration: underline dotted; cursor: pointer;
+  font: inherit; text-align: left; word-break: break-all;
+}
+.artifact-link:hover { text-decoration-style: solid; }
+.artifact-reveal {
+  background: none; border: none; padding: 0 0.3rem;
+  color: var(--muted); cursor: pointer; font-size: 0.85rem;
+}
+.artifact-reveal:hover { color: var(--text); }
+
+/* Publish results shown under each artifact */
+.publish-line { margin-top: 0.15rem; display: flex; flex-wrap: wrap; gap: 0.35rem; padding-left: 0.5rem; }
+.publish-chip {
+  font-size: 0.75rem; padding: 0.05rem 0.4rem; border-radius: 4px;
+  background: rgba(255,255,255,0.03); border: 1px solid var(--border);
+  color: var(--muted);
+}
+.publish-chip.ok { color: var(--ok); border-color: rgba(107,214,107,0.3); }
+.publish-chip.err { color: var(--err); border-color: rgba(255,115,115,0.3); }
+
+/* Header row on the Artifacts section — houses "Artifacts" label and
+   the retroactive "Publish…" button on the right. */
+.artifacts-hdr {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.6rem;
+  margin-bottom: 0.15rem;
+}
+.btn.small {
+  font-size: 0.8rem;
+  padding: 0.15rem 0.5rem;
+}
+
+/* Inline retroactive publish form */
+.retro-publish {
+  margin: 0.4rem 0 0.6rem 0;
+  padding: 0.5rem 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: rgba(94,157,255,0.04);
+}
+.retro-publish .retro-hdr {
+  margin-bottom: 0.4rem;
+}
+
+/* Settings sub-editors */
+.recipes-editor, .watch-editor {
+  display: flex; flex-direction: column; gap: 0.6rem;
+  padding: 0.2rem 0 0.4rem 0;
+}
+.recipe-row, .watch-row {
+  border: 1px solid var(--border); border-radius: 6px; padding: 0.4rem 0.6rem;
+  background: rgba(255,255,255,0.02);
+}
+.recipe-icon { max-width: 3rem; text-align: center; }
+.recipe-name { flex: 1; }
+.recipe-json {
+  width: 100%; font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.8rem; margin-top: 0.3rem;
+}
+
+/* Inline audio player */
+.audio-player {
+  display: flex; align-items: center; gap: 0.5rem;
+  margin: 0.3rem 0 0.4rem 0.5rem;
+  padding: 0.3rem 0.5rem;
+  background: rgba(255,255,255,0.03); border: 1px solid var(--border);
+  border-radius: 6px;
+}
+.audio-scrub {
+  flex: 1;
+  accent-color: var(--accent);
+}
+.audio-time { min-width: 80px; text-align: right; }
+.audio-canvas {
+  background: var(--bg); border-radius: 4px;
+  width: 120px; height: 24px;
+}
+
+/* Search box in header */
+.search-box {
+  background: var(--bg-alt); border: 1px solid var(--border);
+  color: var(--text); padding: 0.3rem 0.6rem; border-radius: 6px;
+  font-size: 0.9rem; width: 200px;
+  -webkit-app-region: no-drag;
+}
+.search-results {
+  max-width: 900px;
+  display: flex; flex-direction: column; gap: 0.4rem;
+  margin-top: 0.6rem;
+}
+.search-hit {
+  background: var(--bg-alt); border: 1px solid var(--border);
+  border-radius: 6px; padding: 0.5rem 0.7rem;
+  font-size: 0.85rem;
+}
+.search-hit-hdr { display: flex; gap: 0.5rem; font-family: ui-monospace, Menlo, monospace; font-size: 0.75rem; color: var(--muted); }
+.search-hit-snip { margin-top: 0.3rem; }
+.search-hit-snip mark {
+  background: rgba(94,157,255,0.35); color: var(--text); padding: 0 0.15rem;
+}
+
+/* Section headers in Settings */
+.section-hdr {
+  margin: 1rem 0 0.4rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--muted);
+}
+
+/* Collapsible sections (Publish & tag in DropZone) */
+.disclosure-section { margin-top: 0.6rem; }
+.disclosure-btn {
+  background: transparent; border: none; color: var(--muted);
+  cursor: pointer; padding: 0.3rem 0; font-size: 0.9rem; text-align: left;
+}
+.disclosure-btn:hover { color: var(--text); }
+.publish-panel {
+  margin: 0.4rem 0 0.2rem 1rem;
+  padding: 0.4rem 0.7rem;
+  border-left: 2px solid var(--border);
+}
+
+.step-tbl { width: 100%; margin: 0.4rem 0; border-collapse: collapse; font-size: 0.9rem; }
+.step-row td { padding: 0.2rem 0.35rem; vertical-align: middle; }
+.step-icon { width: 1.5rem; text-align: center; color: var(--muted); }
+.step-kind { width: 4.5rem; text-transform: capitalize; }
+.step-dur { width: 4rem; text-align: right; font-size: 0.8rem; }
+.step-msg { width: auto; }
+.step-completed .step-icon { color: var(--ok); }
+.step-running .step-icon { color: var(--accent); }
+.step-failed .step-icon { color: var(--err); }
+.step-pending .step-icon, .step-pending .step-kind, .step-pending .step-msg { color: var(--muted); }
+
+.running-msg { color: var(--accent); }
+.spinner {
+  display: inline-block;
+  width: 0.7rem; height: 0.7rem;
+  border: 2px solid rgba(94,157,255,0.35);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  vertical-align: -0.05rem;
+  margin-right: 0.3rem;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.badge { border-radius: 4px; padding: 0.05rem 0.5rem; font-size: 0.75rem; letter-spacing: 0.5px; text-transform: uppercase; }
+.badge-pending { background: rgba(255,206,112,0.15); color: var(--warn); }
+.badge-running { background: rgba(94,157,255,0.15); color: var(--accent); }
+.badge-completed { background: rgba(107,214,107,0.15); color: var(--ok); }
+.badge-failed { background: rgba(255,115,115,0.15); color: var(--err); }
+.badge-cancelled { background: var(--bg); color: var(--muted); }
+
+/* --- plugins --- */
+.plugins .toolbar { margin-bottom: 0.75rem; }
+.plugin-tbl { width: 100%; border-collapse: collapse; }
+.plugin-tbl th, .plugin-tbl td {
+  border-bottom: 1px solid var(--border);
+  text-align: left; padding: 0.5rem;
+  vertical-align: top;
+}
+.plugin-tbl th { color: var(--muted); font-weight: 500; font-size: 0.85rem; }
+.row-dim { opacity: 0.55; }
+.pname { font-weight: 600; }
+.caps { margin: 0; padding-left: 1rem; }
+
+.empty { color: var(--muted); text-align: center; padding: 2rem; }

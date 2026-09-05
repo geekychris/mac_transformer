@@ -1,0 +1,25 @@
+name: ocr-pdf
+description: PDF -> text with automatic OCR fallback for scanned PDFs (macOS Vision)
+version: 1
+
+# Higher priority than pdftotext so this wrapper runs first. When the PDF
+# has a real text layer, it delegates to pdftotext (fast). When it doesn't,
+# it OCRs the pages via macOS Vision.
+capabilities:
+  - from: [pdf]
+    to:   [txt]
+    priority: 80
+
+requires:
+  - kind: binary
+    name: swift
+  - kind: binary
+    name: pdftotext
+
+run:
+  kind: command
+  argv:
+    - "{{plugin_dir}}/pdf-text-smart.sh"
+    - "{{input}}"
+    - "{{output}}"
+  timeout_seconds: 900

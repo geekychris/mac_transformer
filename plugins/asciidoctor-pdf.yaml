@@ -1,0 +1,21 @@
+name: asciidoctor-pdf
+description: Convert AsciiDoc to PDF via asciidoctor-pdf (best fidelity for adoc)
+version: 1
+
+capabilities:
+  - from: [adoc, asciidoc]
+    to:   [pdf]
+    priority: 60
+
+requires:
+  - kind: gem
+    name: asciidoctor-pdf
+
+run:
+  kind: command
+  argv:
+    - asciidoctor-pdf
+    - "{{input}}"
+    - -o
+    - "{{output}}"
+  timeout_seconds: 180

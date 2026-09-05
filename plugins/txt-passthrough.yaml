@@ -1,0 +1,16 @@
+name: txt-passthrough
+description: Copy txt -> txt so a text input still satisfies a "text" output request
+version: 1
+
+capabilities:
+  - from: [txt]
+    to:   [txt]
+    priority: 100
+
+run:
+  kind: command
+  argv:
+    - cp
+    - "{{input}}"
+    - "{{output}}"
+  timeout_seconds: 30

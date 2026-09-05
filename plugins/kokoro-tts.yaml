@@ -1,0 +1,27 @@
+name: kokoro-tts
+description: Speak text via the local kokoro-server (127.0.0.1:8770)
+version: 1
+
+capabilities:
+  - from: [txt]
+    to:   [wav, mp3]
+    priority: 100
+
+requires:
+  - kind: http
+    url: http://127.0.0.1:8770/health
+    expect_status: 200
+
+run:
+  kind: http
+  method: POST
+  url: http://127.0.0.1:8770/tts
+  headers:
+    Content-Type: application/json
+  body_json:
+    text: "{{input_text}}"
+    voice: "{{voice | default:af_bella}}"
+    speed: "{{speed}}"
+    format: "{{output_ext}}"
+  response_to_file: "{{output}}"
+  timeout_seconds: 3600

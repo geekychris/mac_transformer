@@ -1,0 +1,30 @@
+name: mac-say-tts
+description: Speak text via macOS `say` (system voices)
+version: 1
+
+capabilities:
+  # `say` writes AIFF natively; MP3 requires a post-conversion via afconvert.
+  # We ship both paths — the AIFF one is direct, the MP3 one is a wrapper.
+  - from: [txt]
+    to:   [aiff]
+    priority: 50
+  - from: [txt]
+    to:   [mp3]
+    priority: 40
+
+requires:
+  - kind: binary
+    name: say
+
+run:
+  kind: command
+  # For AIFF output we call `say -o out.aiff -f in.txt -v <voice> -r <wpm>`.
+  # For MP3 output we shell through a small wrapper that produces AIFF then
+  # afconvert-encodes to MP3.
+  argv:
+    - "{{plugin_dir}}/say-wrapper.sh"
+    - "{{input}}"
+    - "{{output}}"
+    - "{{voice | default:Samantha}}"
+    - "{{speed}}"
+  timeout_seconds: 1800

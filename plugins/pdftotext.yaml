@@ -1,0 +1,25 @@
+name: pdftotext
+description: Extract plain text from PDFs via Poppler's pdftotext
+version: 1
+
+capabilities:
+  - from: [pdf]
+    to:   [txt]
+    priority: 60
+
+requires:
+  - kind: binary
+    name: pdftotext
+
+run:
+  kind: command
+  # `pdftotext -layout in.pdf out.txt` preserves reading order much better
+  # than the default two-column heuristic. -enc UTF-8 for TTS friendliness.
+  argv:
+    - pdftotext
+    - -layout
+    - -enc
+    - UTF-8
+    - "{{input}}"
+    - "{{output}}"
+  timeout_seconds: 180

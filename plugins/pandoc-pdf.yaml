@@ -1,0 +1,31 @@
+name: pandoc-pdf
+description: Convert markup files to PDF via Pandoc
+version: 1
+
+capabilities:
+  # Best-fit formats for pandoc's PDF pipeline (needs LaTeX for great results,
+  # but even without it pandoc will attempt HTML->PDF via wkhtmltopdf or
+  # weasyprint if configured).
+  - from: [md, markdown, adoc, asciidoc, rst, org, tex, html]
+    to:   [pdf]
+    priority: 30
+  # docx -> pdf as a fallback (LibreOffice is preferred)
+  - from: [docx]
+    to:   [pdf]
+    priority: 20
+
+requires:
+  - kind: binary
+    name: pandoc
+
+run:
+  kind: command
+  argv:
+    - pandoc
+    - "{{input}}"
+    - -o
+    - "{{output}}"
+    # Ask for a PDF engine that's typically present on macOS. Users can drop
+    # a plugin override to force a different one.
+    - --pdf-engine=xelatex
+  timeout_seconds: 300
