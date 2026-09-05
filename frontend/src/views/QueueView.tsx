@@ -3,6 +3,29 @@ import { api, Job, StepReport, StepStatus } from '../api'
 import { PublishForm } from './PublishForm'
 import { AudioPlayer } from './AudioPlayer'
 
+// fmtTimestamp renders an ISO string as a locale-aware "MMM DD, HH:MM:SS"
+// or "HH:MM:SS" if same-day. Falls back to "—" for Go's zero-time
+// sentinel ("0001-…") which comes back over the wire when a job hasn't
+// entered that phase yet.
+function fmtTimestamp(iso?: string): string {
+  if (!iso || iso.startsWith('0001-')) return '—'
+  const d = new Date(iso)
+  const now = new Date()
+  const sameDay =
+    d.getFullYear() === now.getFullYear() &&
+    d.getMonth() === now.getMonth() &&
+    d.getDate() === now.getDate()
+  return sameDay
+    ? d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false })
+    : d.toLocaleString([], {
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false,
+      })
+}
+
 function fmtDuration(job: Job): string {
   if (!job.started) return ''
   const start = new Date(job.started).getTime()
@@ -101,6 +124,15 @@ export function QueueView({ jobs }: { jobs: Job[] }) {
             {open && (
               <div className="job-body">
                 <div className="job-path">{j.request.path}</div>
+                <div className="job-times muted mono">
+                  <span title="Job queued">created {fmtTimestamp(j.created)}</span>
+                  <span title="Started running">
+                    · started {fmtTimestamp(j.started)}
+                  </span>
+                  <span title="Terminal transition time">
+                    · ended {fmtTimestamp(j.ended)}
+                  </span>
+                </div>
                 <div className="job-outs">
                   <span className="muted">outputs:</span> {j.request.outputs.join(', ')}
                 </div>
@@ -130,7 +162,9 @@ export function QueueView({ jobs }: { jobs: Job[] }) {
                               <span className="muted"> ({s.chain.join(' → ')})</span>
                             )}
                           </td>
-                          <td className="step-dur muted">{fmtStepDuration(s)}</td>
+                          <td className="step-dur muted" title={s.started ? `${fmtTimestamp(s.started)} → ${fmtTimestamp(s.ended)}` : ''}>
+                            {fmtStepDuration(s)}
+                          </td>
                         </tr>
                       ))}
                     </tbody>

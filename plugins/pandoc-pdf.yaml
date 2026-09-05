@@ -17,6 +17,12 @@ capabilities:
 requires:
   - kind: binary
     name: pandoc
+  # Pandoc's default PDF pipeline needs xelatex. Users install it via
+  # `brew install --cask basictex` (~100 MB) or MacTeX. Without it, pandoc
+  # exits 47 at run time; probing for the binary up front means we mark
+  # the plugin unavailable instead of failing silently.
+  - kind: binary
+    name: xelatex
 
 run:
   kind: command

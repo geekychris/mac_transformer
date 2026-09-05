@@ -2,6 +2,10 @@
 -- Convert a PowerPoint presentation to PDF via Microsoft PowerPoint.
 --
 -- Usage: osascript powerpoint-convert.applescript INPUT OUTPUT
+--
+-- Modern PowerPoint's `open` command doesn't return a presentation reference
+-- in all versions; grab `active presentation` after the open instead. Also
+-- avoids referencing thePres before it's set (which produced -2753 errors).
 
 on run argv
     if (count of argv) < 2 then
@@ -15,11 +19,14 @@ on run argv
 
     tell application "Microsoft PowerPoint"
         activate
-        set thePres to open inputPosix
+        open inputPosix
+        set thePres to active presentation
         try
             save thePres in outputPosix as save as PDF
         on error errMsg number errNum
-            close thePres saving no
+            try
+                close thePres saving no
+            end try
             error errMsg number errNum
         end try
         close thePres saving no
