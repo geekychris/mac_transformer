@@ -5,7 +5,7 @@
     <key>CFBundleExecutable</key>
     <string>mac_transformer</string>
     <key>CFBundleIdentifier</key>
-    <string>com.chris.mac-transformer.dev</string>
+    <string>com.geekychris.mac-transformer.dev</string>
     <key>CFBundleName</key>
     <string>Mac Transformer (Dev)</string>
     <key>CFBundleDisplayName</key>

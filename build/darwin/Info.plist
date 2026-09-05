@@ -1,345 +1,300 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-    <dict>
-        <key>CFBundlePackageType</key>
-            <string>APPL</string>
-        <key>CFBundleName</key>
-            <string>Mac Transformer</string>
-        <key>CFBundleExecutable</key>
-            <string>mac-transformer</string>
-        <key>CFBundleIdentifier</key>
-            <string>com.chris.mac-transformer</string>
-        <key>CFBundleVersion</key>
-            <string>0.1.0</string>
-        <key>CFBundleShortVersionString</key>
-            <string>0.1.0</string>
-        <key>CFBundleIconFile</key>
-            <string>icons</string>
-        <key>CFBundleIconName</key>
-            <string>appicon</string>
-        <key>LSMinimumSystemVersion</key>
-            <string>12.0.0</string>
-        <key>NSHighResolutionCapable</key>
-            <string>true</string>
-        <key>NSHumanReadableCopyright</key>
-            <string>© 2026, Chris</string>
-
-        <!-- Allow the WebView to talk to the local REST/MCP server on 127.0.0.1:8771. -->
-        <key>NSAppTransportSecurity</key>
-        <dict>
-            <key>NSAllowsLocalNetworking</key>
-            <true/>
-        </dict>
-
-        <!-- TCC prompts for first-time access to protected folders. Without
-             these keys, subprocess reads (pandoc, soffice) silently fail
-             with "Operation not permitted" and the user gets no chance to
-             approve. -->
-        <key>NSDocumentsFolderUsageDescription</key>
-            <string>Mac Transformer needs Documents access to read source files (docx, pptx, adoc, etc.) and to write PDF / text / audio artifacts.</string>
-        <key>NSDesktopFolderUsageDescription</key>
-            <string>Mac Transformer needs Desktop access to read source documents you drag from the Desktop.</string>
-        <key>NSDownloadsFolderUsageDescription</key>
-            <string>Mac Transformer needs Downloads access to read documents you drag from Downloads.</string>
-        <!-- Automation permissions requested for the optional Books /
-             Music publishing sinks. The base `open -a Books/Music path`
-             does NOT need Automation permission — only setting a Books
-             collection or Music playlist/genre does. -->
-        <key>NSAppleEventsUsageDescription</key>
-            <string>Mac Transformer needs Automation permission to place PDFs in Books collections and audio in Music playlists.</string>
-
-        <!-- Declare the file types we can "Open With".
-             LSHandlerRank=Alternate: we're an Open-With option, not the default handler.
-             CFBundleTypeRole=Viewer: we ingest and process, we don't natively edit.
-             UTIs cover the well-known Office/Adobe formats; CFBundleTypeExtensions catches
-             the markup formats that don't have a first-class Apple UTI (adoc / md / rst).
-        -->
-        <key>CFBundleDocumentTypes</key>
-        <array>
-            <!-- Microsoft Word -->
-            <dict>
-                <key>CFBundleTypeName</key>
-                    <string>Microsoft Word Document</string>
-                <key>CFBundleTypeRole</key>
-                    <string>Viewer</string>
-                <key>LSHandlerRank</key>
-                    <string>Alternate</string>
-                <key>LSItemContentTypes</key>
-                <array>
-                    <string>org.openxmlformats.wordprocessingml.document</string>
-                    <string>com.microsoft.word.doc</string>
-                </array>
-                <key>CFBundleTypeExtensions</key>
-                <array>
-                    <string>docx</string>
-                    <string>doc</string>
-                </array>
-            </dict>
-
-            <!-- Microsoft PowerPoint -->
-            <dict>
-                <key>CFBundleTypeName</key>
-                    <string>Microsoft PowerPoint Presentation</string>
-                <key>CFBundleTypeRole</key>
-                    <string>Viewer</string>
-                <key>LSHandlerRank</key>
-                    <string>Alternate</string>
-                <key>LSItemContentTypes</key>
-                <array>
-                    <string>org.openxmlformats.presentationml.presentation</string>
-                    <string>com.microsoft.powerpoint.ppt</string>
-                </array>
-                <key>CFBundleTypeExtensions</key>
-                <array>
-                    <string>pptx</string>
-                    <string>ppt</string>
-                </array>
-            </dict>
-
-            <!-- PDF -->
-            <dict>
-                <key>CFBundleTypeName</key>
-                    <string>PDF Document</string>
-                <key>CFBundleTypeRole</key>
-                    <string>Viewer</string>
-                <key>LSHandlerRank</key>
-                    <string>Alternate</string>
-                <key>LSItemContentTypes</key>
-                <array>
-                    <string>com.adobe.pdf</string>
-                </array>
-                <key>CFBundleTypeExtensions</key>
-                <array>
-                    <string>pdf</string>
-                </array>
-            </dict>
-
-            <!-- Rich Text -->
-            <dict>
-                <key>CFBundleTypeName</key>
-                    <string>Rich Text Document</string>
-                <key>CFBundleTypeRole</key>
-                    <string>Viewer</string>
-                <key>LSHandlerRank</key>
-                    <string>Alternate</string>
-                <key>LSItemContentTypes</key>
-                <array>
-                    <string>public.rtf</string>
-                </array>
-                <key>CFBundleTypeExtensions</key>
-                <array>
-                    <string>rtf</string>
-                </array>
-            </dict>
-
-            <!-- Plain text -->
-            <dict>
-                <key>CFBundleTypeName</key>
-                    <string>Plain Text Document</string>
-                <key>CFBundleTypeRole</key>
-                    <string>Viewer</string>
-                <key>LSHandlerRank</key>
-                    <string>Alternate</string>
-                <key>LSItemContentTypes</key>
-                <array>
-                    <string>public.plain-text</string>
-                </array>
-                <key>CFBundleTypeExtensions</key>
-                <array>
-                    <string>txt</string>
-                </array>
-            </dict>
-
-            <!-- HTML -->
-            <dict>
-                <key>CFBundleTypeName</key>
-                    <string>HTML Document</string>
-                <key>CFBundleTypeRole</key>
-                    <string>Viewer</string>
-                <key>LSHandlerRank</key>
-                    <string>Alternate</string>
-                <key>LSItemContentTypes</key>
-                <array>
-                    <string>public.html</string>
-                </array>
-                <key>CFBundleTypeExtensions</key>
-                <array>
-                    <string>html</string>
-                    <string>htm</string>
-                </array>
-            </dict>
-
-            <!-- OpenDocument (text / presentation) -->
-            <dict>
-                <key>CFBundleTypeName</key>
-                    <string>OpenDocument Document</string>
-                <key>CFBundleTypeRole</key>
-                    <string>Viewer</string>
-                <key>LSHandlerRank</key>
-                    <string>Alternate</string>
-                <key>LSItemContentTypes</key>
-                <array>
-                    <string>org.oasis.opendocument.text</string>
-                    <string>org.oasis.opendocument.presentation</string>
-                    <string>org.oasis.opendocument.spreadsheet</string>
-                </array>
-                <key>CFBundleTypeExtensions</key>
-                <array>
-                    <string>odt</string>
-                    <string>odp</string>
-                    <string>ods</string>
-                </array>
-            </dict>
-
-            <!-- Markdown (Apple's UTI, present since 10.15) -->
-            <dict>
-                <key>CFBundleTypeName</key>
-                    <string>Markdown Document</string>
-                <key>CFBundleTypeRole</key>
-                    <string>Viewer</string>
-                <key>LSHandlerRank</key>
-                    <string>Alternate</string>
-                <key>LSItemContentTypes</key>
-                <array>
-                    <string>net.daringfireball.markdown</string>
-                    <string>public.markdown</string>
-                </array>
-                <key>CFBundleTypeExtensions</key>
-                <array>
-                    <string>md</string>
-                    <string>markdown</string>
-                </array>
-            </dict>
-
-            <!-- Custom UTIs declared below for AsciiDoc / reST / Org so
-                 Launch Services actually classifies these files instead of
-                 assigning them a `dyn.XXX` UTI (which no rule can match). -->
-            <!-- LSHandlerRank=Owner because these UTIs are ones we
-                 exported ourselves — no other app has a stronger claim,
-                 and this makes Finder show us prominently in Open With. -->
-            <dict>
-                <key>CFBundleTypeName</key>
-                    <string>AsciiDoc Document</string>
-                <key>CFBundleTypeRole</key>
-                    <string>Viewer</string>
-                <key>LSHandlerRank</key>
-                    <string>Owner</string>
-                <key>LSItemContentTypes</key>
-                <array>
-                    <string>com.chris.mac-transformer.asciidoc</string>
-                </array>
-                <key>CFBundleTypeExtensions</key>
-                <array>
-                    <string>adoc</string>
-                    <string>asciidoc</string>
-                </array>
-            </dict>
-            <dict>
-                <key>CFBundleTypeName</key>
-                    <string>reStructuredText Document</string>
-                <key>CFBundleTypeRole</key>
-                    <string>Viewer</string>
-                <key>LSHandlerRank</key>
-                    <string>Owner</string>
-                <key>LSItemContentTypes</key>
-                <array>
-                    <string>com.chris.mac-transformer.rst</string>
-                </array>
-                <key>CFBundleTypeExtensions</key>
-                <array>
-                    <string>rst</string>
-                </array>
-            </dict>
-            <dict>
-                <key>CFBundleTypeName</key>
-                    <string>Org-mode Document</string>
-                <key>CFBundleTypeRole</key>
-                    <string>Viewer</string>
-                <key>LSHandlerRank</key>
-                    <string>Owner</string>
-                <key>LSItemContentTypes</key>
-                <array>
-                    <string>com.chris.mac-transformer.org</string>
-                </array>
-                <key>CFBundleTypeExtensions</key>
-                <array>
-                    <string>org</string>
-                </array>
-            </dict>
-        </array>
-
-        <!-- Exported type declarations. Registering these gives Finder a
-             stable UTI to classify these files under, so LSItemContentTypes
-             matches and our Open-With entry actually appears. Each UTI
-             conforms to public.plain-text so tools that ask "is this text?"
-             (Spotlight, QuickLook, other editors) get the right answer. -->
-        <key>UTExportedTypeDeclarations</key>
-        <array>
-            <dict>
-                <key>UTTypeIdentifier</key>
-                    <string>com.chris.mac-transformer.asciidoc</string>
-                <key>UTTypeDescription</key>
-                    <string>AsciiDoc Document</string>
-                <key>UTTypeConformsTo</key>
-                <array>
-                    <string>public.plain-text</string>
-                </array>
-                <key>UTTypeTagSpecification</key>
-                <dict>
-                    <key>public.filename-extension</key>
-                    <array>
-                        <string>adoc</string>
-                        <string>asciidoc</string>
-                    </array>
-                    <key>public.mime-type</key>
-                    <array>
-                        <string>text/asciidoc</string>
-                        <string>text/x-asciidoc</string>
-                    </array>
-                </dict>
-            </dict>
-            <dict>
-                <key>UTTypeIdentifier</key>
-                    <string>com.chris.mac-transformer.rst</string>
-                <key>UTTypeDescription</key>
-                    <string>reStructuredText Document</string>
-                <key>UTTypeConformsTo</key>
-                <array>
-                    <string>public.plain-text</string>
-                </array>
-                <key>UTTypeTagSpecification</key>
-                <dict>
-                    <key>public.filename-extension</key>
-                    <array>
-                        <string>rst</string>
-                    </array>
-                    <key>public.mime-type</key>
-                    <array>
-                        <string>text/x-rst</string>
-                    </array>
-                </dict>
-            </dict>
-            <dict>
-                <key>UTTypeIdentifier</key>
-                    <string>com.chris.mac-transformer.org</string>
-                <key>UTTypeDescription</key>
-                    <string>Org-mode Document</string>
-                <key>UTTypeConformsTo</key>
-                <array>
-                    <string>public.plain-text</string>
-                </array>
-                <key>UTTypeTagSpecification</key>
-                <dict>
-                    <key>public.filename-extension</key>
-                    <array>
-                        <string>org</string>
-                    </array>
-                    <key>public.mime-type</key>
-                    <array>
-                        <string>text/x-org</string>
-                    </array>
-                </dict>
-            </dict>
-        </array>
-    </dict>
+<dict>
+	<key>CFBundleDocumentTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>docx</string>
+				<string>doc</string>
+			</array>
+			<key>CFBundleTypeName</key>
+			<string>Microsoft Word Document</string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSHandlerRank</key>
+			<string>Alternate</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>org.openxmlformats.wordprocessingml.document</string>
+				<string>com.microsoft.word.doc</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>pptx</string>
+				<string>ppt</string>
+			</array>
+			<key>CFBundleTypeName</key>
+			<string>Microsoft PowerPoint Presentation</string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSHandlerRank</key>
+			<string>Alternate</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>org.openxmlformats.presentationml.presentation</string>
+				<string>com.microsoft.powerpoint.ppt</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>pdf</string>
+			</array>
+			<key>CFBundleTypeName</key>
+			<string>PDF Document</string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSHandlerRank</key>
+			<string>Alternate</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>com.adobe.pdf</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>rtf</string>
+			</array>
+			<key>CFBundleTypeName</key>
+			<string>Rich Text Document</string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSHandlerRank</key>
+			<string>Alternate</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>public.rtf</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>txt</string>
+			</array>
+			<key>CFBundleTypeName</key>
+			<string>Plain Text Document</string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSHandlerRank</key>
+			<string>Alternate</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>public.plain-text</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>html</string>
+				<string>htm</string>
+			</array>
+			<key>CFBundleTypeName</key>
+			<string>HTML Document</string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSHandlerRank</key>
+			<string>Alternate</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>public.html</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>odt</string>
+				<string>odp</string>
+				<string>ods</string>
+			</array>
+			<key>CFBundleTypeName</key>
+			<string>OpenDocument Document</string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSHandlerRank</key>
+			<string>Alternate</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>org.oasis.opendocument.text</string>
+				<string>org.oasis.opendocument.presentation</string>
+				<string>org.oasis.opendocument.spreadsheet</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>md</string>
+				<string>markdown</string>
+			</array>
+			<key>CFBundleTypeName</key>
+			<string>Markdown Document</string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSHandlerRank</key>
+			<string>Alternate</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>net.daringfireball.markdown</string>
+				<string>public.markdown</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>adoc</string>
+				<string>asciidoc</string>
+			</array>
+			<key>CFBundleTypeName</key>
+			<string>AsciiDoc Document</string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSHandlerRank</key>
+			<string>Owner</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>com.geekychris.mac-transformer.asciidoc</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>rst</string>
+			</array>
+			<key>CFBundleTypeName</key>
+			<string>reStructuredText Document</string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSHandlerRank</key>
+			<string>Owner</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>com.geekychris.mac-transformer.rst</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>org</string>
+			</array>
+			<key>CFBundleTypeName</key>
+			<string>Org-mode Document</string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSHandlerRank</key>
+			<string>Owner</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>com.geekychris.mac-transformer.org</string>
+			</array>
+		</dict>
+	</array>
+	<key>CFBundleExecutable</key>
+	<string>mac-transformer</string>
+	<key>CFBundleIconFile</key>
+	<string>icons</string>
+	<key>CFBundleIconName</key>
+	<string>appicon</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.geekychris.mac-transformer</string>
+	<key>CFBundleName</key>
+	<string>Mac Transformer</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>0.1.0-alpha</string>
+	<key>CFBundleVersion</key>
+	<string>0.1.0-alpha</string>
+	<key>LSMinimumSystemVersion</key>
+	<string>12.0.0</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsLocalNetworking</key>
+		<true/>
+	</dict>
+	<key>NSAppleEventsUsageDescription</key>
+	<string>Mac Transformer needs Automation permission to place PDFs in Books collections and audio in Music playlists.</string>
+	<key>NSDesktopFolderUsageDescription</key>
+	<string>Mac Transformer needs Desktop access to read source documents you drag from the Desktop.</string>
+	<key>NSDocumentsFolderUsageDescription</key>
+	<string>Mac Transformer needs Documents access to read source files (docx, pptx, adoc, etc.) and to write PDF / text / audio artifacts.</string>
+	<key>NSDownloadsFolderUsageDescription</key>
+	<string>Mac Transformer needs Downloads access to read documents you drag from Downloads.</string>
+	<key>NSHighResolutionCapable</key>
+	<string>true</string>
+	<key>NSHumanReadableCopyright</key>
+	<string>© 2026, Chris</string>
+	<key>UTExportedTypeDeclarations</key>
+	<array>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.plain-text</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>AsciiDoc Document</string>
+			<key>UTTypeIdentifier</key>
+			<string>com.geekychris.mac-transformer.asciidoc</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>adoc</string>
+					<string>asciidoc</string>
+				</array>
+				<key>public.mime-type</key>
+				<array>
+					<string>text/asciidoc</string>
+					<string>text/x-asciidoc</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.plain-text</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>reStructuredText Document</string>
+			<key>UTTypeIdentifier</key>
+			<string>com.geekychris.mac-transformer.rst</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>rst</string>
+				</array>
+				<key>public.mime-type</key>
+				<array>
+					<string>text/x-rst</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.plain-text</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>Org-mode Document</string>
+			<key>UTTypeIdentifier</key>
+			<string>com.geekychris.mac-transformer.org</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>org</string>
+				</array>
+				<key>public.mime-type</key>
+				<array>
+					<string>text/x-org</string>
+				</array>
+			</dict>
+		</dict>
+	</array>
+</dict>
 </plist>

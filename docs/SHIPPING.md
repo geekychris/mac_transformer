@@ -82,20 +82,14 @@ Environment overrides:
 
 - `MT_TAP_DIR` — where to clone the tap for auto-updating the Cask (default: `~/.mac-transformer/homebrew-mac-transformer`)
 
-## Before your first release: bundle ID
+## Bundle ID
 
-The current `build/darwin/Info.plist` uses `CFBundleIdentifier = com.chris.mac-transformer`. This is a placeholder — before you cut a real release, change it to a reverse-DNS you own. Apple recommends `com.<yourdomain>.mac-transformer` or `com.<yourgithubhandle>.mac-transformer`. The bundle id sticks with the app forever (uninstalling won't clear it from Launch Services caches), so pick well:
-
-```sh
-# In build/darwin/Info.plist AND build/darwin/Info.dev.plist:
-/usr/libexec/PlistBuddy -c "Set :CFBundleIdentifier com.yourhandle.mac-transformer" build/darwin/Info.plist
-/usr/libexec/PlistBuddy -c "Set :CFBundleIdentifier com.yourhandle.mac-transformer.dev" build/darwin/Info.dev.plist
-```
-
-Also grep the codebase for any references to the old id (`main.go` and any AppleScripts / plists that check bundle_id) and update those too:
+`build/darwin/Info.plist` uses `CFBundleIdentifier = com.geekychris.mac-transformer`. Same prefix is used for the exported UTIs (`com.geekychris.mac-transformer.asciidoc/.rst/.org`) declared in `UTExportedTypeDeclarations`. If you fork under a different account, rename all four:
 
 ```sh
-grep -rn "com.chris.mac-transformer" .
+# Replace `com.geekychris.mac-transformer` with whatever you own.
+grep -rln "com\.geekychris\.mac-transformer" . --include='*.plist' --include='*.go' --include='*.md' \
+  | xargs -I{} sed -i '' 's|com\.geekychris\.mac-transformer|com.YOURHANDLE.mac-transformer|g' {}
 ```
 
 ## What the entitlements grant

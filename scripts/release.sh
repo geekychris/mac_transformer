@@ -41,8 +41,16 @@ if [[ ! -f "$WAILS_DEFAULTS" ]]; then
     echo "error: $WAILS_DEFAULTS not found. Run ./scripts/setup-signing.sh first." >&2
     exit 1
 fi
-SIGN_IDENTITY=$(awk -F': *' '/^sign_identity:/{gsub(/^"|"$/, "", $2); print $2}' "$WAILS_DEFAULTS")
-KEYCHAIN_PROFILE=$(awk -F': *' '/^keychain_profile:/{gsub(/^"|"$/, "", $2); print $2}' "$WAILS_DEFAULTS")
+# The signing identity value contains ": " (e.g. "Developer ID
+# Application: Chris (XXXXXXXXXX)"), so a naive split would truncate it.
+# Grab everything after `key:<space>` and strip optional wrapping quotes.
+extract_field() {
+    local key="$1"
+    grep -E "^${key}:" "$WAILS_DEFAULTS" | head -1 |
+        sed -E "s|^${key}:[[:space:]]+||; s|^\"(.*)\"\$|\\1|"
+}
+SIGN_IDENTITY=$(extract_field sign_identity)
+KEYCHAIN_PROFILE=$(extract_field keychain_profile)
 
 if [[ -z "$SIGN_IDENTITY" ]]; then
     echo "error: no sign_identity in $WAILS_DEFAULTS" >&2
