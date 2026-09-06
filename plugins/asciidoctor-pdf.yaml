@@ -1,6 +1,6 @@
 name: asciidoctor-pdf
-description: Convert AsciiDoc to PDF via asciidoctor-pdf (best fidelity for adoc)
-version: 1
+description: Convert AsciiDoc to PDF via asciidoctor-pdf (best fidelity for adoc, renders Mermaid/PlantUML/Graphviz if their runtimes are installed)
+version: 2
 
 capabilities:
   - from: [adoc, asciidoc]
@@ -13,9 +13,25 @@ requires:
 
 run:
   kind: command
+  # Load asciidoctor-diagram so [mermaid], [plantuml], [graphviz], [ditaa]
+  # blocks render inline. The extension shells out to the runtime for the
+  # given diagram type (mmdc, plantuml.jar, dot, ditaa). Missing runtimes
+  # produce warnings but don't fail the build — a [mermaid] block whose
+  # runtime is missing is just left as text.
+  #
+  # PNG output for Mermaid avoids the SVG-rect-attribute warnings that the
+  # asciidoctor-pdf renderer emits when parsing mmdc's SVG output.
   argv:
     - asciidoctor-pdf
+    - -r
+    - asciidoctor-diagram
+    - -a
+    - mermaid-format=png
+    - -a
+    - plantuml-format=png
+    - -a
+    - graphviz-format=png
     - "{{input}}"
     - -o
     - "{{output}}"
-  timeout_seconds: 180
+  timeout_seconds: 600

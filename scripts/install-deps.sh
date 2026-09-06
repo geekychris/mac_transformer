@@ -91,6 +91,19 @@ if ask "Install asciidoctor-pdf? (best-in-class AsciiDoc → PDF)"; then
   install_gem asciidoctor-pdf
 fi
 
+# --- asciidoctor-diagram + Mermaid CLI — render [mermaid]/[plantuml] blocks ---
+if ask "Install asciidoctor-diagram + Mermaid CLI? (renders [mermaid], [plantuml], [graphviz] blocks in AsciiDoc PDFs)"; then
+  install_gem asciidoctor-diagram
+  install_brew mermaid-cli
+  # Optional companions — install if the user says yes; they're small.
+  if ask "  Also install PlantUML? (needed for [plantuml] blocks)"; then
+    install_brew plantuml
+  fi
+  if ask "  Also install Graphviz? (needed for [graphviz]/[dot] blocks)"; then
+    install_brew graphviz
+  fi
+fi
+
 # --- Kokoro (external repo) ---
 if ask "Install Kokoro TTS runtime? (local neural TTS — runs at http://127.0.0.1:8770)"; then
   if [[ -d "$HOME/.kokoro/src" ]]; then
