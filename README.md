@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/logo.png" alt="Mac Transformer logo" width="180">
+</p>
+
 # Mac Transformer
 
 Convert documents into **PDF**, **plain text**, **spoken audio**, and **AI-generated summaries** through a pluggable pipeline. Optionally publish to Apple Books, Apple Music, Safari Reading List, Obsidian vaults, or Notion databases. Runs on macOS 12+.
